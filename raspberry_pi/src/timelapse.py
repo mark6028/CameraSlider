@@ -31,21 +31,20 @@ GPIO.output(7,GPIO.LOW)
 GPIO.output(20,GPIO.LOW)
 GPIO.output(21,GPIO.LOW)
 GPIO.output(TiltStepPin,GPIO.HIGH)
- 
+
 def stepnumberoftime(steps,stepPin):
-    for x in range(0,steps):
+    for y in range(0,steps):
         GPIO.output(stepPin,GPIO.LOW)
         time.sleep(0.001)
         GPIO.output(stepPin,GPIO.HIGH)
         time.sleep(0.001)
-	GPIO.output(stepPin,GPIO.HIGH)
-	if stepPin == 23:
-		SlidePos+=1
-	if stepPin == 8:
-		PanPos+=1
-	if stepPin == 16:
-		TiltPos+=1
-    return;
+        GPIO.output(stepPin,GPIO.HIGH)
+        if stepPin == 23:
+            SlidePos+=1
+        if stepPin == 8:
+            PanPos+=1
+        if stepPin == 16:
+            TiltPos+=1
 
 def enablemotors():
     GPIO.output(22,GPIO.HIGH)
@@ -60,7 +59,6 @@ try:
     for x in range(0,815): #815 amount of photos in one night
         if x == 407:
             GPIO.output(TiltStepPin,GPIO.LOW)
-        
         enablemotors()
         stepnumberoftime(4,PanStepPin)
         stepnumberoftime(10,TiltStepPin)
@@ -76,7 +74,7 @@ try:
         print(PanPos)
         print("TiltPos:")
         print(TiltPos)
-        time.sleep(1)
+        time.sleep(1)// shutterspeed: number of seconds
         GPIO.output(21,GPIO.LOW)
 except:
     disablemotors()

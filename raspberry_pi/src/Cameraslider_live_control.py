@@ -46,7 +46,7 @@ try:
     # into variable
         keys = pygame.key.get_pressed()
     # The car will drive forward when the "w" key is pressed
-        if keys[K_KP8]:
+        if keys[K_UP]:
             print("up")
             GPIO.output(20,GPIO.HIGH)
             GPIO.output(TiltStepPin,GPIO.LOW)
@@ -54,7 +54,7 @@ try:
             GPIO.output(TiltStepPin,GPIO.HIGH)
             time.sleep(0.001)
     # The car will reverse when the "s" key is pressed
-        if keys[K_KP2]:
+        if keys[K_DOWN]:
             print("down")
             GPIO.output(20,GPIO.LOW)
             GPIO.output(TiltStepPin,GPIO.LOW)
@@ -62,7 +62,7 @@ try:
             GPIO.output(TiltStepPin,GPIO.HIGH)
             time.sleep(0.001)
     # The "a" key will toggle the steering left
-        if keys[K_KP4]:
+        if keys[K_LEFT]:
             print("left")
             GPIO.output(7,GPIO.LOW)
             GPIO.output(PanStepPin,GPIO.LOW)
@@ -71,14 +71,14 @@ try:
             time.sleep(0.001)
 
     # The "d" key will toggle the steering right
-        if keys[K_KP6]:
+        if keys[K_RIGHT]:
             print("right")
             GPIO.output(7,GPIO.HIGH)
             GPIO.output(PanStepPin,GPIO.LOW)
             time.sleep(0.001)
             GPIO.output(PanStepPin,GPIO.HIGH)
             time.sleep(0.001)
-
+        time.sleep(0,02)
 
 except:
     GPIO.cleanup()

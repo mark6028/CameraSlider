@@ -79,6 +79,6 @@ try:
             GPIO.output(PanStepPin,GPIO.HIGH)
             time.sleep(0.001)
         time.sleep(0,02)
-
+    pygame.event.pump()
 except:
     GPIO.cleanup()

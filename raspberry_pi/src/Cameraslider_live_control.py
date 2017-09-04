@@ -1,9 +1,9 @@
 import RPi.GPIO as GPIO
-import pygame
-from pygame.locals import *
+#import pygame
+#from pygame.locals import *
 import time
 import sys
-
+import Tkinter as tk
 
 pygame.init()
 pygame.display.set_mode((1,1))
@@ -38,47 +38,57 @@ GPIO.output(21,GPIO.LOW)
 GPIO.output(22,GPIO.HIGH)
 GPIO.output(11,GPIO.HIGH)
 GPIO.output(19,GPIO.HIGH)
-
-
 try:
-    while True:
-    # Keyboard character retrieval method is called and saved
-    # into variable
-        keys = pygame.key.get_pressed()
-    # The car will drive forward when the "w" key is pressed
-        if keys[K_UP]:
-            print("up")
-            GPIO.output(20,GPIO.HIGH)
-            GPIO.output(TiltStepPin,GPIO.LOW)
-            time.sleep(0.001)
-            GPIO.output(TiltStepPin,GPIO.HIGH)
-            time.sleep(0.001)
-    # The car will reverse when the "s" key is pressed
-        if keys[K_DOWN]:
-            print("down")
-            GPIO.output(20,GPIO.LOW)
-            GPIO.output(TiltStepPin,GPIO.LOW)
-            time.sleep(0.001)
-            GPIO.output(TiltStepPin,GPIO.HIGH)
-            time.sleep(0.001)
-    # The "a" key will toggle the steering left
-        if keys[K_LEFT]:
-            print("left")
-            GPIO.output(7,GPIO.LOW)
-            GPIO.output(PanStepPin,GPIO.LOW)
-            time.sleep(0.001)
-            GPIO.output(PanStepPin,GPIO.HIGH)
-            time.sleep(0.001)
 
-    # The "d" key will toggle the steering right
-        if keys[K_RIGHT]:
-            print("right")
-            GPIO.output(7,GPIO.HIGH)
-            GPIO.output(PanStepPin,GPIO.LOW)
-            time.sleep(0.001)
-            GPIO.output(PanStepPin,GPIO.HIGH)
-            time.sleep(0.001)
-        time.sleep(0,02)
-    pygame.event.pump()
+    def key(event):
+        """shows key or tk code for the key"""
+        if event.keysym == 'Escape':
+            root.destroy()
+            GPIO.cleanup()
+        if event.char == event.keysym:
+            # normal number and letter characters
+            print( 'Normal Key %r' % event.char )
+            if event.keysym == "a":
+                print("A pressed")
+            elif event.keysym == "d":
+                print("D pressed")
+        elif len(event.char) == 1:
+            # charcters like []/.,><#$ also Return and ctrl/key
+            print( 'Punctuation Key %r (%r)' % (event.keysym, event.char) )
+        else:
+            # f1 to f12, shift keys, caps lock, Home, End, Delete ...
+            print( 'Special Key %r' % event.keysym )
+            if event.keysym == "Down":
+                GPIO.output(20,GPIO.LOW)
+                GPIO.output(TiltStepPin,GPIO.LOW)
+                time.sleep(0.001)
+                GPIO.output(TiltStepPin,GPIO.HIGH)
+                time.sleep(0.001)
+            elif event.keysym == "Up":
+                GPIO.output(20,GPIO.HIGH)
+                GPIO.output(TiltStepPin,GPIO.LOW)
+                time.sleep(0.001)
+                GPIO.output(TiltStepPin,GPIO.HIGH)
+                time.sleep(0.001)
+            elif event.keysym == "Left":
+                GPIO.output(7,GPIO.LOW)
+                GPIO.output(PanStepPin,GPIO.LOW)
+                time.sleep(0.001)
+                GPIO.output(PanStepPin,GPIO.HIGH)
+                time.sleep(0.001)
+            elif event.keysym == "Right":
+                GPIO.output(7,GPIO.HIGH)
+                GPIO.output(PanStepPin,GPIO.LOW)
+                time.sleep(0.001)
+                GPIO.output(PanStepPin,GPIO.HIGH)
+                time.sleep(0.001)
+
+    root = tk.Tk()
+    print( "Press a key (Escape key to exit):" )
+    root.bind_all('<Key>', key)
+    # don't show the tk window
+    #root.withdraw()
+    root.mainloop()
+
 except:
     GPIO.cleanup()

@@ -1,12 +1,7 @@
+import getch
 import RPi.GPIO as GPIO
-#import pygame
-#from pygame.locals import *
 import time
-import sys
-import Tkinter as tk
-
-#pygame.init()
-#pygame.display.set_mode((1,1))
+# start application with python3
 
 
 SlideStepPin = 23
@@ -38,71 +33,66 @@ GPIO.output(21,GPIO.LOW)
 GPIO.output(22,GPIO.HIGH)
 GPIO.output(11,GPIO.HIGH)
 GPIO.output(19,GPIO.HIGH)
+
 stepsize = 1
-
 try:
-
-    def key(event):
-        global stepsize
-        """shows key or tk code for the key"""
-        if event.keysym == 'Escape':
-            root.destroy()
-            GPIO.cleanup()
-        if event.char == event.keysym:
-            # normal number and letter characters
-            print( 'Normal Key %r' % event.char )
-            if event.keysym == "a":
-                GPIO.output(24,GPIO.LOW)
-                GPIO.output(SlideStepPin,GPIO.LOW)
-                time.sleep(0.001-(stepsize/10000))
-                GPIO.output(SlideStepPin,GPIO.HIGH)
-                time.sleep(0.001-(stepsize/10000))
-            elif event.keysym == "d":
-                GPIO.output(24,GPIO.HIGH)
-                GPIO.output(SlideStepPin,GPIO.LOW)
-                time.sleep(0.001-(stepsize/10000))
-                GPIO.output(SlideStepPin,GPIO.HIGH)
-                time.sleep(0.001-(stepsize/10000))
-        elif len(event.char) == 1:
-            # charcters like []/.,><#$ also Return and ctrl/key
-            print( 'Punctuation Key %r (%r)' % (event.keysym, event.char) )
-        else:
-            # f1 to f12, shift keys, caps lock, Home, End, Delete ...
-            print( 'Special Key %r' % event.keysym )
-            if "F" in event.keysym:
-                stepsize = int(event.keysym[1:]) * 2
-                print(stepsize)
-            if event.keysym == "Down":
-                GPIO.output(20,GPIO.HIGH)
-                GPIO.output(TiltStepPin,GPIO.LOW)
-                time.sleep(0.001-(stepsize/10000))
-                GPIO.output(TiltStepPin,GPIO.HIGH)
-                time.sleep(0.001-(stepsize/10000))
-            elif event.keysym == "Up":
+    while True:
+        choice = getch.getch()
+        if choice == "w":
+            print("up")
+            for x in range (0,stepsize):
                 GPIO.output(20,GPIO.LOW)
                 GPIO.output(TiltStepPin,GPIO.LOW)
-                time.sleep(0.001-(stepsize/10000))
+                time.sleep(0.001)
                 GPIO.output(TiltStepPin,GPIO.HIGH)
-                time.sleep(0.001-(stepsize/10000))
-            elif event.keysym == "Left":
-                GPIO.output(7,GPIO.LOW)
-                GPIO.output(PanStepPin,GPIO.LOW)
-                time.sleep(0.001-(stepsize/10000))
-                GPIO.output(PanStepPin,GPIO.HIGH)
-                time.sleep(0.001-(stepsize/10000))
-            elif event.keysym == "Right":
+                time.sleep(0.001)
+        if choice == "s":
+            print("down")
+            for x in range (0,stepsize):
+                GPIO.output(20,GPIO.HIGH)
+                GPIO.output(TiltStepPin,GPIO.LOW)
+                time.sleep(0.001)
+                GPIO.output(TiltStepPin,GPIO.HIGH)
+                time.sleep(0.001)
+        if choice == "a":
+            print("left")
+            for x in range (0,stepsize):
                 GPIO.output(7,GPIO.HIGH)
                 GPIO.output(PanStepPin,GPIO.LOW)
-                time.sleep(0.001-(stepsize/10000))
+                time.sleep(0.001)
                 GPIO.output(PanStepPin,GPIO.HIGH)
-                time.sleep(0.001-(stepsize/10000))
-
-    root = tk.Tk()
-    print( "Press a key (Escape key to exit):" )
-    root.bind_all('<Key>', key)
-    # don't show the tk window
-    #root.withdraw()
-    root.mainloop()
-
+                time.sleep(0.001)
+        if choice == "d":
+            print("right")
+            for x in range (0,stepsize):
+                GPIO.output(7,GPIO.LOW)
+                GPIO.output(PanStepPin,GPIO.LOW)
+                time.sleep(0.001)
+                GPIO.output(PanStepPin,GPIO.HIGH)
+                time.sleep(0.001)
+        if choice == "z":
+            print("slide left")
+            GPIO.output(24,GPIO.LOW)
+            for x in range (0,stepsize):
+                GPIO.output(SlideStepPin,GPIO.LOW)
+                time.sleep(0.001)
+                GPIO.output(SlideStepPin,GPIO.HIGH)
+                time.sleep(0.001)
+        if choice == "x":
+            print("slide right")
+            GPIO.output(24,GPIO.HIGH)
+            for x in range (0,stepsize):
+                GPIO.output(SlideStepPin,GPIO.LOW)
+                time.sleep(0.001)
+                GPIO.output(SlideStepPin,GPIO.HIGH)
+                time.sleep(0.001)
+        if choice == "1":
+            print("right")
+            stepsize = int(choice)
+        if choice == "2":
+            print("right")
+            stepsize = int(choice)*2
 except:
+    print("exit")
     GPIO.cleanup()
+

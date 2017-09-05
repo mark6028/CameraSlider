@@ -38,7 +38,7 @@ GPIO.output(21,GPIO.LOW)
 GPIO.output(22,GPIO.HIGH)
 GPIO.output(11,GPIO.HIGH)
 GPIO.output(19,GPIO.HIGH)
-stepsize = 0
+stepsize = 1
 
 try:
 
@@ -53,18 +53,16 @@ try:
             print( 'Normal Key %r' % event.char )
             if event.keysym == "a":
                 GPIO.output(24,GPIO.LOW)
-                for x in range (0,stepsize):
-                    GPIO.output(SlideStepPin,GPIO.LOW)
-                    time.sleep(0.001)
-                    GPIO.output(SlideStepPin,GPIO.HIGH)
-                    time.sleep(0.001)
+                GPIO.output(SlideStepPin,GPIO.LOW)
+                time.sleep(0.001-(stepsize/10000))
+                GPIO.output(SlideStepPin,GPIO.HIGH)
+                time.sleep(0.001-(stepsize/10000))
             elif event.keysym == "d":
                 GPIO.output(24,GPIO.HIGH)
-                for x in range (0,stepsize):
-                    GPIO.output(SlideStepPin,GPIO.LOW)
-                    time.sleep(0.001)
-                    GPIO.output(SlideStepPin,GPIO.HIGH)
-                    time.sleep(0.001)
+                GPIO.output(SlideStepPin,GPIO.LOW)
+                time.sleep(0.001-(stepsize/10000))
+                GPIO.output(SlideStepPin,GPIO.HIGH)
+                time.sleep(0.001-(stepsize/10000))
         elif len(event.char) == 1:
             # charcters like []/.,><#$ also Return and ctrl/key
             print( 'Punctuation Key %r (%r)' % (event.keysym, event.char) )
@@ -76,32 +74,28 @@ try:
                 print(stepsize)
             if event.keysym == "Down":
                 GPIO.output(20,GPIO.HIGH)
-                for x in range (0,stepsize):
-                    GPIO.output(TiltStepPin,GPIO.LOW)
-                    time.sleep(0.001)
-                    GPIO.output(TiltStepPin,GPIO.HIGH)
-                    time.sleep(0.001)
+                GPIO.output(TiltStepPin,GPIO.LOW)
+                time.sleep(0.001-(stepsize/10000))
+                GPIO.output(TiltStepPin,GPIO.HIGH)
+                time.sleep(0.001-(stepsize/10000))
             elif event.keysym == "Up":
                 GPIO.output(20,GPIO.LOW)
-                for x in range (0,stepsize):
-                    GPIO.output(TiltStepPin,GPIO.LOW)
-                    time.sleep(0.001)
-                    GPIO.output(TiltStepPin,GPIO.HIGH)
-                    time.sleep(0.001)
+                GPIO.output(TiltStepPin,GPIO.LOW)
+                time.sleep(0.001-(stepsize/10000))
+                GPIO.output(TiltStepPin,GPIO.HIGH)
+                time.sleep(0.001-(stepsize/10000))
             elif event.keysym == "Left":
                 GPIO.output(7,GPIO.LOW)
-                for x in range (0,stepsize):
-                    GPIO.output(PanStepPin,GPIO.LOW)
-                    time.sleep(0.001)
-                    GPIO.output(PanStepPin,GPIO.HIGH)
-                    time.sleep(0.001)
+                GPIO.output(PanStepPin,GPIO.LOW)
+                time.sleep(0.001-(stepsize/10000))
+                GPIO.output(PanStepPin,GPIO.HIGH)
+                time.sleep(0.001-(stepsize/10000))
             elif event.keysym == "Right":
                 GPIO.output(7,GPIO.HIGH)
-                for x in range (0,stepsize):
-                    GPIO.output(PanStepPin,GPIO.LOW)
-                    time.sleep(0.001)
-                    GPIO.output(PanStepPin,GPIO.HIGH)
-                    time.sleep(0.001)
+                GPIO.output(PanStepPin,GPIO.LOW)
+                time.sleep(0.001-(stepsize/10000))
+                GPIO.output(PanStepPin,GPIO.HIGH)
+                time.sleep(0.001-(stepsize/10000))
 
     root = tk.Tk()
     print( "Press a key (Escape key to exit):" )
